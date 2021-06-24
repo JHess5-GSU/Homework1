@@ -4,7 +4,7 @@ My first ever attempt to design an app. It works on Android and Web platforms.
 
 To run, just download the zip, extract into a directory, and run the build.gradle file with Android Studio (either by right clicking in Explorer or by going to File > New > Import Project)
 
-Going to be honest, I had absolutely no prior Dart or mobile app experience. This homework assignment was challenging for a beginner due to the steep learning curve involved and (relatively) short time frame.
+Going to be honest, I had absolutely no prior Dart or mobile app experience. This homework assignment was challenging for me due to the steep learning curve involved and (relatively) short time frame.
 
 As a result, the assignment was not fully completed. That being said, I have already learned a considerable amount.
 
