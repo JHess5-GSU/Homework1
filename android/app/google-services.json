@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "317074837834",
+    "project_id": "homework1-6b075",
+    "storage_bucket": "homework1-6b075.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317074837834:android:c79c23b6a575398b1a71b3",
+        "android_client_info": {
+          "package_name": "info.getev.homework1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317074837834-562e4vm73r4s80cisg3dlcj0mem2k9bm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "info.getev.homework1",
+            "certificate_hash": "b15561b3bc013cff94c58b03dbb87045c2c93273"
+          }
+        },
+        {
+          "client_id": "317074837834-va1v53uh4m7jds23fkj2dav15q2fvg0t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBYwgxXpZGYJg8ZHOjK8IoSQVJOeNSwyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317074837834-va1v53uh4m7jds23fkj2dav15q2fvg0t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
