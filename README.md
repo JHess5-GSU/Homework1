@@ -8,6 +8,12 @@ Going to be honest, I had absolutely no prior Dart or mobile app experience. Thi
 
 As a result, the assignment was not fully completed. That being said, I have already learned a considerable amount.
 
+# To Run The Project
+
+Assuming you already have a Flutter setup, please just extract the zip into the directory that contains your existing flutter apps. Everything you need is included in the repo, but your Flutter SDK location could be set to anywhere.
+
+Included for ease of grading is a screen recording. I believe it shows everything you need, especially as you can pause it whenever necessary.
+
 Things that are working: 
 
     -   Splash Screen
@@ -42,3 +48,6 @@ Things that are NOT working:
     
     
 A screen recording is included.
+
+Thanks,
+Jason Hess
