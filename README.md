@@ -14,7 +14,7 @@ Assuming you already have a Flutter setup, please just extract the zip into the 
 
 My Android and Flutter SDK locations will be different from yours, so it will take some configuration on your side. You may even have to rename it from Homework1-test to something else.
 
-You may be able to get it to work by cloning your own working app directory and then replacing the 'lib' folder, as well as 'android/app' and 'android/build.gradle' files.
+Instead, you may be able to get it to work by cloning your own working app directory and then replacing the 'lib' folder, as well as 'android/app' and 'android/build.gradle' files.
 
 Included for ease of grading is a screen recording from my personal phone. I believe it shows everything you need, especially as you can pause it whenever necessary.
 
