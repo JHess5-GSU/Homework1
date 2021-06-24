@@ -12,7 +12,13 @@ As a result, the assignment was not fully completed. That being said, I have alr
 
 Assuming you already have a Flutter setup, please just extract the zip into the directory that contains your existing flutter apps. Everything you need is included in the repo, but your Flutter SDK location could be set to anywhere.
 
-Included for ease of grading is a screen recording. I believe it shows everything you need, especially as you can pause it whenever necessary.
+My Android and Flutter SDK locations will be different from yours, so it will take some configuration on your side. You may even have to rename it from Homework1-test to something else.
+
+You may be able to get it to work by cloning your own working app directory and then replacing the 'lib' folder, as well as 'android/app' and 'android/build.gradle' files.
+
+Included for ease of grading is a screen recording from my personal phone. I believe it shows everything you need, especially as you can pause it whenever necessary.
+
+Sorry for the inconvenience of setting it up, if you are trying to use it in Android Studio.
 
 Things that are working: 
 
