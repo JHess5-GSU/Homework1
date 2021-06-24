@@ -1,4 +1,4 @@
-# Homework 1
+# Homework 1    -    Jason Hess
 
 My first ever attempt to design an app. It works on Android and Web platforms.
 
@@ -6,7 +6,7 @@ To run, just download the zip, extract into a directory, and run the build.gradl
 
 Going to be honest, I had absolutely no prior Dart or mobile app experience. This homework assignment was challenging for a beginner due to the steep learning curve involved and (relatively) short time frame.
 
-As a result, the assignment was not fully completed.
+As a result, the assignment was not fully completed. That being said, I have already learned a considerable amount.
 
 Things that are working: 
 
@@ -27,6 +27,8 @@ Things that are working:
     -   Send Messages                   -   Since I did not have time to set up User Roles, everyone that logs in can currently send messages in the chat.
     
     -   Sign Out                        -   Added a Drawer with a Log Out button. It will take you back to the login screen.
+    
+    -   Web and Android Platforms       -   I did not configure it for iOS as I do not have a setup yet for MacOS.
    
     
     
@@ -38,3 +40,5 @@ Things that are NOT working
     
     -   Log Out Alert Dialog            -   Did not have a chance to implement. 
     
+    
+A screen recording is included.
