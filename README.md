@@ -32,7 +32,7 @@ Things that are working:
    
     
     
-Things that are NOT working
+Things that are NOT working:
 
     -   Login with Social Media         -   Did not have time. Twitter API key and secret are generated. Google SHA-1 generated and input into Firebase console.
     
