@@ -1,3 +1,5 @@
+# WAIT, I DID NOT SEE THAT THE DUE DATE WAS EXTENDED. I AM NOT DONE YET.
+
 # Homework 1    -    Jason Hess
 
 My first ever attempt to design an app. It works on Android and Web platforms.
