@@ -365,6 +365,10 @@ class _RegisterFormState extends State<RegisterForm> {
                               //_lastNameController.text,
                               _passwordController.text,
                             );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomePage()),
+                            );
                           }
                         },
                         child: const Text('SAVE'),

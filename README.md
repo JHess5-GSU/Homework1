@@ -1,5 +1,3 @@
-# WAIT, I DID NOT SEE THAT THE DUE DATE WAS EXTENDED. I AM NOT DONE YET.
-
 # Homework 1    -    Jason Hess
 
 My first ever attempt to design an app. It works on Android and Web platforms.
@@ -12,7 +10,7 @@ As a result, the assignment was not fully completed. That being said, I have alr
 
 # To Run The Project
 
-Assuming you already have a Flutter setup, please just extract the zip into the directory that contains your existing flutter apps. Everything you need is included in the repo, but your Flutter SDK location could be set to anywhere.
+I am going to be honest, I did not have enough time to test how to install/run this app from scratch.
 
 My Android and Flutter SDK locations will be different from yours, so it will take some configuration on your side. You may even have to rename it from Homework1-test to something else.
 
@@ -32,25 +30,25 @@ Things that are working:
     
     -   Login with Email and Password   -   I was able to successfully set up Firebase and use Cloud Firestore and Firebase Authentication to enable email-based logins.
     
-    -   Cloud Firestore                 -   Does not yet store the registration datetime.
+    -   Cloud Firestore                 -   Stores userId, registeredOn (date), role, and displayName upon registration.
     
     -   Firebase Authentication         -   Email and Password are working. Did not have enough time to add social media, but Twitter and Google login is technically enabled and ready to setup.
     
-    -   Global Messages                 -   Currently, all messages show to everyone.
+    -   Global Messages                 -   Currently, all messages show to everyone. 'admin' role is added, but the text field and send button do not have logic for disappearing.
     
     -   Send Messages                   -   Since I did not have time to set up User Roles, everyone that logs in can currently send messages in the chat.
     
     -   Sign Out                        -   Added a Drawer with a Log Out button. It will take you back to the login screen.
     
     -   Web and Android Platforms       -   I did not configure it for iOS as I do not have a setup yet for MacOS.
-   
     
+    -   User Roles                      -   Firestore stores user role on registration. Default is customer. Can be changed to admin.
+   
+    -   First and Last Name  
     
 Things that are NOT working:
 
     -   Login with Social Media         -   Did not have time. Twitter API key and secret are generated. Google SHA-1 generated and input into Firebase console.
-    
-    -   User Roles                      -   Did not have a chance to set up.
     
     -   Log Out Alert Dialog            -   Did not have a chance to implement. 
     

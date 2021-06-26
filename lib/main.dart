@@ -91,7 +91,6 @@ class ApplicationState extends ChangeNotifier {
   ApplicationState() {
     init();
   }
-
   Future<void> init() async {
     await Firebase.initializeApp();
 
@@ -172,6 +171,10 @@ class ApplicationState extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
+
+
+
+
   }
 
   void cancelRegistration() {
@@ -182,8 +185,8 @@ class ApplicationState extends ChangeNotifier {
   Future<void> registerAccount(
       String email,
       String displayName,
-     // String firstName,
-     // String lastName,
+      //String firstName,
+      //String lastName,
       String password,
       void Function(FirebaseAuthException e) errorCallback) async {
     try {
@@ -195,7 +198,18 @@ class ApplicationState extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
+
+    FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
+
+      'userId':FirebaseAuth.instance.currentUser!.uid,
+      'role':"customer",
+      'registeredOn':DateTime.now(),
+      'displayName': displayName,
+
+    });
+
   }
+
 
   void signOut() {
     FirebaseAuth.instance.signOut();
@@ -299,6 +313,25 @@ class _MainChatState extends State<MainChat> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_MainChatState');
   final _controller = TextEditingController();
 
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
+
+  Future<bool> futureIsAdmin() async {
+    var docSnapshot = await users.doc(userId).get();
+    if (docSnapshot.exists) {
+      Map<String, dynamic>? data = docSnapshot.data();
+
+      // You can then retrieve the value from the Map like this:
+      var role = data?['role'];
+      bool isAdmin = (role == "admin");
+      return Future<bool>.value(isAdmin);
+    }
+    return Future<bool>.value(false);
+  }
+
+  bool isAdmin = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -309,51 +342,52 @@ class _MainChatState extends State<MainChat> {
             Paragraph('${message.name}: ${message.message}'),
           SizedBox(height: 8),
 
-    Padding(
+      Padding(
 
-      padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
 
-      child: Form(
-        key: _formKey,
-        child: Row(
-          children: [
+        child: Form(
+          key: _formKey,
+          child: Row(
+            children: [
 
-            Expanded(
+              Expanded(
 
-              child: TextFormField(
-                style: TextStyle(color: Colors.white),
-                controller: _controller,
-                decoration: const InputDecoration(
-                  hintText: 'Enter a message',
+                child: TextFormField(
+                  style: TextStyle(color: Colors.white),
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter a message',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter your message to continue';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Enter your message to continue';
+              ),
+              SizedBox(width: 8),
+              StyledButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    await widget.addMessage(_controller.text);
+                    _controller.clear();
                   }
-                  return null;
                 },
+                child: Row(
+                  children: [
+                    Icon(Icons.send),
+                    SizedBox(width: 4),
+                    Text('SEND'),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(width: 8),
-            StyledButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  await widget.addMessage(_controller.text);
-                  _controller.clear();
-                }
-              },
-              child: Row(
-                children: [
-                  Icon(Icons.send),
-                  SizedBox(width: 4),
-                  Text('SEND'),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
+
           SizedBox(height: 10),
         ],
     );
