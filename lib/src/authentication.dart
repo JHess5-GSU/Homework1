@@ -100,6 +100,7 @@ class Authentication extends StatelessWidget {
           },
         );
       case ApplicationLoginState.loggedIn:
+
         return Row(
           children: [
             Padding(
