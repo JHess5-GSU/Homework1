@@ -1,28 +1,14 @@
-# Homework 1    -    Jason Hess
+# Group Assignment 1    -    Jason Hess
 
-My first ever attempt to design an app. It works on Android and Web platforms.
+Hi there. This is my group assignment submission. I actually did not have a group and preferred to do this alone.
 
-To run, just download the zip, extract into a directory, and run the build.gradle file with Android Studio (either by right clicking in Explorer or by going to File > New > Import Project)
+As a result, it may not be as polished as groups that have 5x the brainpower and time available than I do, but I am fairly happy with the result I have.
 
-Going to be honest, I had absolutely no prior Dart or mobile app experience. This homework assignment was challenging for me due to the steep learning curve involved.
-
-As a result, the assignment was not fully completed. That being said, I have already learned a considerable amount.
-
-# To Run The Project
-
-I am going to be honest, I did not have enough time to test how to install/run this app from scratch.
-
-My Android and Flutter SDK locations will be different from yours, so it will take some configuration on your side. You may even have to rename it from Homework1-test to something else.
-
-Instead, you may be able to get it to work by cloning your own working app directory and then replacing the 'lib' folder, as well as 'android/app' and 'android/build.gradle' files.
-
-Included for ease of grading is a screen recording from my personal phone. I believe it shows everything you need, especially as you can pause it whenever necessary.
-
-Sorry for the inconvenience of setting it up, if you are trying to use it in Android Studio.
+It is certainly not perfect, and the list below will help explain the various things that are and are not working in the app.
 
 Things that are working: 
 
-    -   Splash Screen
+    -   Splash Screen                   -   Picture of me, albeit a few years ago. :)
     
     -   Firebase API usage              -   Described below.
     
@@ -34,26 +20,39 @@ Things that are working:
     
     -   Firebase Authentication         -   Email and Password are working. Did not have enough time to add social media, but Twitter and Google login is technically enabled and ready to setup.
     
-    -   Global Messages                 -   Currently, all messages show to everyone. 'admin' role is added, but the text field and send button do not have logic for disappearing.
+    -   Message Boards                  -   Four message boards are present. Each has their own chat, and messages now show date and time when sent. Image assets are hardcoded.
     
-    -   Send Messages                   -   Since I did not have time to set up User Roles, everyone that logs in can currently send messages in the chat.
+    -   Navigation Bar                  -   Drawer at the top left includes a profile picture, and buttons for profile, settings, message boards, and signing out.
     
-    -   Sign Out                        -   Added a Drawer with a Log Out button. It will take you back to the login screen.
+    -   Profile Picture                 -   Profile picture is currently hardcoded, but could soon use firestore for custom, updatable pictures. Tappable to go to profile page.
+    
+    -   Profile button/home             -   Takes you to the profile page, which has the profile pic, display name, and other info.
+    
+    -   Settings button                 -   Takes you to the settings page, which has a log out
+    
+    -   Sign Out                        -   It will sign you out and take you back to the login screen.
     
     -   Web and Android Platforms       -   I did not configure it for iOS as I do not have a setup yet for MacOS.
     
-    -   User Roles                      -   Firestore stores user role on registration. Default is customer. Can be changed to admin.
-   
-    -   First and Last Name  
-    
 Things that are NOT working:
 
-    -   Login with Social Media         -   Did not have time. Twitter API key and secret are generated. Google SHA-1 generated and input into Firebase console.
+    -   Edit Display Name               -   Display name is shown, but currently not editable. Plan was to make it a text field that could be saved and then gets uploaded to user doc.
     
-    -   Log Out Alert Dialog            -   Did not have a chance to implement. 
+    -   Social Media Profiles           -   No way to link profiles yet. Space on the profile page to add links.
     
-    
-A screen recording is included.
+A screen recording is included. 
 
 Thanks,
 Jason Hess
+
+# P.S. The images were all handcrafted by me, in MS Paint. :)
+
+To run it, you can extract to any directory and then open it in Android Studio. Or, you can use the screen recording, which shows the entire app in a little over a minute and is pausable.
+
+Things I plan to work on in the future:
+
+    -   Cleaner UI                      -   UI is not very pretty, but I am not a graphic artist nor UI expert. I could certainly improve that in the future.
+    
+    -   Cleaner code                    -   Code is a little bit of a spaghetti mess, I could separate things into separate files/classes a little bit better in the future.
+    
+    -   Prettier messages               -   Messages right now are very basic Paragraph/Text objects in a list. Could improve these with profile pictures, bubbles, etc.

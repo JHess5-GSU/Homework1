@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
 import 'src/authentication.dart';
 import 'src/widgets.dart';
 
@@ -37,6 +37,7 @@ class App extends StatelessWidget {
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),
+
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
 
@@ -53,8 +54,37 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Message Board'),
-        backgroundColor: Colors.black,
+        automaticallyImplyLeading: true,
+        title: Text("Message Board"),
+        centerTitle: true,
+
+      ),
+
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.only(top:50),
+          children: <Widget>[
+
+             Container(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                  ),
+                  onPressed: () {
+                    showLogOutAlertDialog(context);
+                  },
+                  child: Text('Logout'),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       backgroundColor: Colors.grey[900],
       body: ListView(
@@ -106,6 +136,7 @@ class ApplicationState extends ChangeNotifier {
           snapshot.docs.forEach((document) {
             _mainChatMessages.add(
               MainChatMessage(
+                date: document.data()['date'],
                 name: document.data()['name'],
                 message: document.data()['text'],
               ),
@@ -123,6 +154,7 @@ class ApplicationState extends ChangeNotifier {
           snapshot.docs.forEach((document) {
             _Chat2Messages.add(
               Chat2Message(
+                date: document.data()['date'],
                 name: document.data()['name'],
                 message: document.data()['text'],
               ),
@@ -140,6 +172,7 @@ class ApplicationState extends ChangeNotifier {
           snapshot.docs.forEach((document) {
             _Chat3Messages.add(
               Chat3Message(
+                date: document.data()['date'],
                 name: document.data()['name'],
                 message: document.data()['text'],
               ),
@@ -157,6 +190,7 @@ class ApplicationState extends ChangeNotifier {
           snapshot.docs.forEach((document) {
             _Chat4Messages.add(
               Chat4Message(
+                date: document.data()['date'],
                 name: document.data()['name'],
                 message: document.data()['text'],
               ),
@@ -275,6 +309,11 @@ class ApplicationState extends ChangeNotifier {
 
   }
 
+  String dateToString(DateTime now){
+    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
+    final String formatted = formatter.format(now);
+    return formatted;
+  }
 
   void signOut() {
     FirebaseAuth.instance.signOut();
@@ -290,6 +329,7 @@ class ApplicationState extends ChangeNotifier {
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
       'userId': FirebaseAuth.instance.currentUser!.uid,
+      'date': dateToString(DateTime.now())
     });
   }
 
@@ -303,6 +343,7 @@ class ApplicationState extends ChangeNotifier {
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
       'userId': FirebaseAuth.instance.currentUser!.uid,
+      'date': dateToString(DateTime.now())
     });
   }
 
@@ -316,6 +357,7 @@ class ApplicationState extends ChangeNotifier {
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
       'userId': FirebaseAuth.instance.currentUser!.uid,
+      'date': dateToString(DateTime.now())
     });
   }
 
@@ -329,6 +371,7 @@ class ApplicationState extends ChangeNotifier {
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
       'userId': FirebaseAuth.instance.currentUser!.uid,
+      'date': dateToString(DateTime.now())
     });
   }
 
@@ -345,58 +388,7 @@ class HomePage extends StatelessWidget {
 
       ),
 
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-
-            Material(
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
-                },
-                child: Container(
-                  child: ClipRRect(
-                    child: Image.asset('assets/pfp.png',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-
-            Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                child: Text('Go Back'),
-              ),
-            ),
-
-            Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                child: Text('Logout'),
-              ),
-            ),
-
-          ],
-        ),
-      ),
+      drawer: MyDrawer(),
 
       body: ListView(
         children: <Widget>[
@@ -485,33 +477,7 @@ class MainChatHome extends StatelessWidget {
 
       ),
 
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.red[900],
-              ),
-              child: Text('MENU'),
-            ),
-            Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                child: Text('Logout'),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: MyDrawer(),
 
       body: ListView(
         reverse: true,
@@ -551,34 +517,7 @@ class Chat2Home extends StatelessWidget {
 
       ),
 
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.green[900],
-              ),
-              child: Text('MENU'),
-            ),
-            Container(
-              child: ElevatedButton(
-
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                child: Text('Logout'),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: MyDrawer(),
 
       body: ListView(
         reverse: true,
@@ -618,33 +557,7 @@ class Chat3Home extends StatelessWidget {
 
       ),
 
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue[900],
-              ),
-              child: Text('MENU'),
-            ),
-            Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                child: Text('Logout'),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: MyDrawer(),
 
       body: ListView(
         reverse: true,
@@ -684,33 +597,7 @@ class Chat4Home extends StatelessWidget {
 
       ),
 
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.grey,
-              ),
-              child: Text('MENU'),
-            ),
-            Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                child: Text('Logout'),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: MyDrawer(),
 
       body: ListView(
         reverse: true,
@@ -746,38 +633,12 @@ class ProfilePage extends StatelessWidget {
         automaticallyImplyLeading: true,
         title: Text("Profile"),
         centerTitle: true,
-        backgroundColor: Colors.red[900],
+        backgroundColor: Colors.black,
 
 
       ),
 
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.red[900],
-              ),
-              child: Text('MENU'),
-            ),
-            Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                child: Text('Logout'),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: MyDrawer(),
 
       body: ListView(
         children: <Widget>[
@@ -786,7 +647,137 @@ class ProfilePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  
+
+                  Material(
+                    child: InkWell(
+
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Chat4Home()),
+                        );
+                      },
+                      child: Container(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Image.asset('assets/pfp.png',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20.0, right: 20, top: 20),
+                    child: Center(
+                    child: Text(
+                        "${FirebaseAuth.instance.currentUser!.displayName}",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white, fontSize: 25)
+                    ),
+                  ),
+                  ),
+                  ),
+
+                  Divider(
+                    height: 40,
+                    thickness: 3,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20.0,right: 20.0),
+                      child: Text(
+                          "Email: ${FirebaseAuth.instance.currentUser!.email}",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: Colors.white, fontSize: 20)
+                      ),
+                    ),
+                  ),
+
+                  Divider(
+                    height: 40,
+                    thickness: 3,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+
+
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20.0,right: 20.0),
+                      child: Text(
+                          "Bio: Hi, I almost know what I'm doing.",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: Colors.white, fontSize: 20)
+                      ),
+                    ),
+                  ),
+
+                  Divider(
+                    height: 40,
+                    thickness: 3,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20.0,right: 20.0),
+                      child: Text(
+                          "Instagram: jason.hess",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: Colors.white, fontSize: 20)
+                      ),
+                    ),
+                  ),
+
+                  Divider(
+                    height: 40,
+                    thickness: 3,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+
+                  Container(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20.0,right: 20.0),
+                      child: Text(
+                          "More stuff will go here later, I promise.",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: Colors.white, fontSize: 20)
+                      ),
+                    ),
+                  ),
+
+                  Divider(
+                    height: 40,
+                    thickness: 3,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20.0,right: 20.0),
+                      child: Text(
+                          "This is just to show that the profile page scrolls whenever it needs to. I quite like this class at the moment. I've learned a lot.",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: Colors.white, fontSize: 20)
+                      ),
+                    ),
+                  ),
+
+                  Divider(
+                    height: 40,
+                    thickness: 3,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
                 ],
               ],
             ),
@@ -800,26 +791,273 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
+showLogOutAlertDialog(BuildContext context) {
+
+  // set up the buttons
+  Widget cancelButton = FlatButton(
+    child: Text("Cancel"),
+    onPressed:  () {
+      Navigator.pop(context);
+    },
+  );
+  Widget continueButton = FlatButton(
+    child: Text("Yes"),
+    onPressed: () {
+    FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+        LoginPage()), (Route<dynamic> route) => false);
+  },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Confirm Logout"),
+
+    backgroundColor: Colors.grey,
+    content: Text("Are you sure you wish to log out?"),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+class MyDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      // Add a ListView to the drawer. This ensures the user can scroll
+      // through the options in the drawer if there isn't enough vertical
+      // space to fit everything.
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          Material(
+            child: InkWell(
+
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                );
+              },
+              child: Container(
+
+                child: ClipRRect(
+
+                  borderRadius: BorderRadius.circular(69),
+                  child: Image.asset('assets/pfp.png',    // Eventually load users profile pic here instead
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          Container(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                );
+              },
+              child: Text('Profile'),
+            ),
+          ),
+          ),
+
+          Container(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+              },
+              child: Text('Settings'),
+            ),
+          ),
+          ),
+
+          Container(
+            child: ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+              child: Text('Message Boards'),
+            ),
+          ),
+          ),
+
+          Container(
+            child: ClipRRect(
+    borderRadius: BorderRadius.circular(100),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+              ),
+              onPressed: () {
+                showLogOutAlertDialog(context);
+              },
+              child: Text('Logout'),
+            ),
+          ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SettingsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        title: Text("Settings"),
+        centerTitle: true,
+        backgroundColor: Colors.grey,
+      ),
+
+      drawer: MyDrawer(),
+
+      body: ListView(
+        children: <Widget>[
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+
+                  Container(
+                    child: Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Center(
+                      child: Text(
+                          "${FirebaseAuth.instance.currentUser!.displayName}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 25)
+                      ),
+                    ),
+                  ),
+                  ),
+
+                  Container(
+                    width: 500,
+                    child: Center(
+                      child: SizedBox(
+
+                        child: ElevatedButton(
+
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                          ),
+                          onPressed: () {
+                            showLogOutAlertDialog(context);
+                          },
+                          child: Text('Change Display Name'),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    width: 500,
+                    child: Center(
+                    child: SizedBox(
+
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                        ),
+                        onPressed: () {
+                          showLogOutAlertDialog(context);
+                        },
+                        child: Text('Logout'),
+                      ),
+                    ),
+                  ),
+                  ),
+
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Center(
+                        child: Text(
+                            "UID: ${FirebaseAuth.instance.currentUser!.uid}",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white, fontSize: 18)
+                        ),
+                      ),
+                    ),
+                  ),
+
+                ],
+              ],
+
+            ),
+          ),
+
+        ],
+
+      ),
+
+    );
+  }
+}
+
 class MainChatMessage {
-  MainChatMessage({required this.name, required this.message});
+  MainChatMessage({required this.date, required this.name, required this.message});
+  final String date;
   final String name;
   final String message;
 }
 
 class Chat2Message {
-  Chat2Message({required this.name, required this.message});
+  Chat2Message({required this.date, required this.name, required this.message});
+  final String date;
   final String name;
   final String message;
 }
 
 class Chat3Message {
-  Chat3Message({required this.name, required this.message});
+  Chat3Message({required this.date, required this.name, required this.message});
+  final String date;
   final String name;
   final String message;
 }
 
 class Chat4Message {
-  Chat4Message({required this.name, required this.message});
+  Chat4Message({required this.date, required this.name, required this.message});
+  final String date;
   final String name;
   final String message;
 }
@@ -875,8 +1113,8 @@ class _MainChatState extends State<MainChat> {
         children: [
 
           for (var message in widget.messages)
-            Paragraph('${message.name}: ${message.message}'),
-          SizedBox(height: 8),
+            Paragraph('On ${message.date}, ${message.name} said:\n${message.message}'),
+          SizedBox(height: 15),
 
       Padding(
 
@@ -945,8 +1183,8 @@ class _Chat2State extends State<Chat2> {
       children: [
 
         for (var message in widget.messages)
-          Paragraph('${message.name}: ${message.message}'),
-        SizedBox(height: 8),
+          Paragraph('On ${message.date}, ${message.name} said:\n${message.message}'),
+        SizedBox(height: 15),
 
         Padding(
 
@@ -1000,6 +1238,8 @@ class _Chat2State extends State<Chat2> {
   }
 }
 
+
+
 class _Chat3State extends State<Chat3> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_Chat3State');
   final _controller = TextEditingController();
@@ -1015,8 +1255,8 @@ class _Chat3State extends State<Chat3> {
       children: [
 
         for (var message in widget.messages)
-          Paragraph('${message.name}: ${message.message}'),
-        SizedBox(height: 8),
+          Paragraph('On ${message.date}, ${message.name} said:\n${message.message}'),
+        SizedBox(height: 15),
 
         Padding(
 
@@ -1085,8 +1325,8 @@ class _Chat4State extends State<Chat4> {
       children: [
 
         for (var message in widget.messages)
-          Paragraph('${message.name}: ${message.message}'),
-        SizedBox(height: 8),
+          Paragraph('On ${message.date}, ${message.name} said:\n${message.message}'),
+        SizedBox(height: 15),
 
         Padding(
 

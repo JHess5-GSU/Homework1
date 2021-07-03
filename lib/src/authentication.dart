@@ -55,11 +55,25 @@ class Authentication extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Center(
               child: StyledButton(
                 onPressed: () {
                   startLoginFlow();
                 },
                 child: const Text('Sign in with Email'),
+              ),
+            ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Center(
+                child: StyledButton(
+                  onPressed: () {
+                    startLoginFlow();
+                  },
+                  child: const Text('Sign in with Google'),
+                ),
               ),
             ),
           ],
