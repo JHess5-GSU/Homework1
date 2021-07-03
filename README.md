@@ -21,9 +21,10 @@ Things that are working:
     -   Firebase Authentication         -   Email and Password are working. Did not have enough time to add social media, but Twitter and Google login is technically enabled and ready to setup.
     
     -   Message Boards                  -   Four message boards are present. Each has their own chat, and messages now show date and time when sent. Image assets are hardcoded.
+                                        -   I color coded the AppBar at the top to match each message board! It looks nice, in my opinion.
     
     -   Navigation Bar                  -   Drawer at the top left includes a profile picture, and buttons for profile, settings, message boards, and signing out.
-    
+                                            
     -   Profile Picture                 -   Profile picture is currently hardcoded, but could soon use firestore for custom, updatable pictures. Tappable to go to profile page.
     
     -   Profile button/home             -   Takes you to the profile page, which has the profile pic, display name, and other info.
