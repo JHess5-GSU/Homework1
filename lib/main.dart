@@ -843,6 +843,53 @@ showLogOutAlertDialog(BuildContext context) {
   );
 }
 
+void showPasswordResetDialog(context, email) {
+
+  // set up the buttons
+  Widget cancelButton = FlatButton(
+    child: Text("Cancel"),
+    onPressed:  () {
+      Navigator.pop(context);
+    },
+  );
+  Widget continueButton = FlatButton(
+    child: Text("Yes"),
+    onPressed: () {
+      _resetPassword(email);
+
+      // Close dialog
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Password reset email sent!"),
+      ));
+
+    },
+  );
+
+  AlertDialog alert = AlertDialog(
+    title: Text("Forgot Password?"),
+    backgroundColor: Colors.grey,
+    content:
+    Text("Follow the link sent to your email to reset your password"),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+
+}
+
+Future<void> _resetPassword(String email) async {
+  await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+}
+
 class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -972,34 +1019,35 @@ class SettingsPage extends StatelessWidget {
 
                   Container(
                     child: Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Center(
-                      child: Text(
-                          "${FirebaseAuth.instance.currentUser!.displayName}",
+                      padding: EdgeInsets.only(left: 20.0, right: 20, top: 20),
+                      child: Center(
+                        child: TextField(
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white, fontSize: 25)
-                      ),
-                    ),
-                  ),
-                  ),
-
-                  Container(
-                    width: 500,
-                    child: Center(
-                      child: SizedBox(
-
-                        child: ElevatedButton(
-
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                          decoration: InputDecoration(
+                            hintText: "${FirebaseAuth.instance.currentUser!.displayName}",
                           ),
-                          onPressed: () {
-                            showLogOutAlertDialog(context);
-                          },
-                          child: Text('Change Display Name'),
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                          onSubmitted: (String value) {FirebaseAuth.instance.currentUser!.updateDisplayName(value); FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update({
+                            'displayName': value,
+                          });;},
                         ),
                       ),
                     ),
+                  ),
+
+                  Divider(
+                    height: 5,
+
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+
+                  Center(child: Text("Tap Above to Change Profile Name", style: TextStyle(color: Colors.grey, fontSize: 15)),),
+
+                  Divider(
+                    height: 20,
+                    indent: 20,
+                    endIndent: 20,
                   ),
 
                   Container(
@@ -1020,6 +1068,50 @@ class SettingsPage extends StatelessWidget {
                   ),
                   ),
 
+                  Divider(
+                    height: 20,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+
+                  Container(
+                    width: 500,
+                    child: Center(
+                      child: SizedBox(
+
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                          ),
+                          onPressed: () {
+                            showPasswordResetDialog(context, FirebaseAuth.instance.currentUser!.email);
+                          },
+                          child: Text('Send Password Reset Email'),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Divider(
+                    height: 20,
+                    thickness: 3,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Center(
+                      child: Text(
+                          "Email: ${FirebaseAuth.instance.currentUser!.email}",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: Colors.white, fontSize: 20)
+                      ),
+                    ),
+                  ),
+                  ),
+
                   Container(
                     child: Padding(
                       padding: EdgeInsets.all(20.0),
@@ -1027,11 +1119,13 @@ class SettingsPage extends StatelessWidget {
                         child: Text(
                             "UID: ${FirebaseAuth.instance.currentUser!.uid}",
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontSize: 18)
+                            style: TextStyle(color: Colors.white, fontSize: 15)
                         ),
                       ),
                     ),
                   ),
+
+
 
                 ],
               ],
