@@ -667,19 +667,32 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
 
-
                   Container(
                     child: Padding(
                       padding: EdgeInsets.only(left: 20.0, right: 20, top: 20),
-                    child: Center(
-                    child: Text(
-                        "${FirebaseAuth.instance.currentUser!.displayName}",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 25)
+                      child: Center(
+                        child: TextField(
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                                hintText: "${FirebaseAuth.instance.currentUser!.displayName}",
+                            ),
+                            style: TextStyle(color: Colors.white, fontSize: 25),
+                          onSubmitted: (String value) {FirebaseAuth.instance.currentUser!.updateDisplayName(value); FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update({
+                            'displayName': value,
+                          });;},
+                        ),
+                        ),
+                      ),
                     ),
+
+                  Divider(
+                    height: 5,
+
+                    indent: 20,
+                    endIndent: 20,
                   ),
-                  ),
-                  ),
+
+                  Center(child: Text("Tap Above to Change Profile Name", style: TextStyle(color: Colors.grey, fontSize: 15)),),
 
                   Divider(
                     height: 40,
