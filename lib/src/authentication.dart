@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:homework1/main.dart';
 
@@ -10,6 +11,7 @@ enum ApplicationLoginState {
   register,
   password,
   loggedIn,
+  signInWithGoogle,
 }
 
 class Authentication extends StatelessWidget {
@@ -19,6 +21,7 @@ class Authentication extends StatelessWidget {
     required this.startLoginFlow,
     required this.verifyEmail,
     required this.signInWithEmailAndPassword,
+    required this.signInWithGoogle,
     required this.cancelRegistration,
     required this.registerAccount,
     required this.signOut,
@@ -38,6 +41,7 @@ class Authentication extends StatelessWidget {
       String password,
       void Function(Exception e) error,
       ) signInWithEmailAndPassword;
+  final void Function() signInWithGoogle;
   final void Function() cancelRegistration;
   final void Function(
       String email,
@@ -70,7 +74,7 @@ class Authentication extends StatelessWidget {
               child: Center(
                 child: StyledButton(
                   onPressed: () {
-                    startLoginFlow();
+
                   },
                   child: const Text('Sign in with Google'),
                 ),
@@ -117,6 +121,20 @@ class Authentication extends StatelessWidget {
 
         return Row(
           children: [
+
+            Padding(
+              padding: const EdgeInsets.only(left: 24, bottom: 8),
+              child: StyledButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                },
+                child: const Text('MESSAGE BOARDS'),
+              ),
+            ),
+
             Padding(
               padding: const EdgeInsets.only(left: 24, bottom: 8),
               child: StyledButton(
@@ -138,6 +156,9 @@ class Authentication extends StatelessWidget {
   }
 
   void _showErrorDialog(BuildContext context, String title, Exception e) {
+
+    setEFlag();
+
     showDialog<void>(
       context: context,
       builder: (context) {
@@ -159,7 +180,13 @@ class Authentication extends StatelessWidget {
           actions: <Widget>[
             StyledButton(
               onPressed: () {
-                Navigator.of(context).pop();
+
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => LoginPage()),
+                );
+
               },
               child: const Text(
                 'OKAY, WHATEVER',
@@ -171,6 +198,15 @@ class Authentication extends StatelessWidget {
       },
     );
   }
+}
+
+int _eflag = 0;
+
+void setEFlag() {
+  _eflag = 1;
+}
+void unsetEFlag() {
+  _eflag = 0;
 }
 
 class EmailForm extends StatefulWidget {
@@ -481,11 +517,25 @@ class _PasswordFormState extends State<PasswordForm> {
                               _emailController.text,
                               _passwordController.text,
                             );
-                            Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                            );
                           }
+                            if (_eflag == 0) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()),
+                              );
+                            }
+                            else {
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()),
+                              );
+                            }
+
+                          unsetEFlag();
+
                         },
                         child: const Text('SIGN IN'),
                       ),

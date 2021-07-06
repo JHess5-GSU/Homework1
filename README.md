@@ -35,11 +35,13 @@ Things that are working:
     
     -   Web and Android Platforms       -   I did not configure it for iOS as I do not have a setup yet for MacOS.
     
-Things that are NOT working:
-
-    -   Edit Display Name               -   Display name is shown, but currently not editable. Plan was to make it a text field that could be saved and then gets uploaded to user doc.
+    -   Edit Display Name               -   Can be changed by tapping it under the Profile or Settings page. When done typing, pressing enter saves the new string to Firebase and updates displayname.
     
-    -   Social Media Profiles           -   No way to link profiles yet. Space on the profile page to add links.
+    -   Password Reset                  -   Under settings, there is a password reset button. It will send you an email with a link to reset your password.
+    
+Things that are NOT working:
+    
+    -   Social Media                    -   No way to link profiles yet. Space on the profile page to add links.
     
 A screen recording is included. 
 
@@ -57,3 +59,5 @@ Things I plan to work on in the future:
     -   Cleaner code                    -   Code is a little bit of a spaghetti mess, I could separate things into separate files/classes a little bit better in the future.
     
     -   Prettier messages               -   Messages right now are very basic Paragraph/Text objects in a list. Could improve these with profile pictures, bubbles, etc.
+    
+    -   Editable Profile Pictures       -   Eventually, messages could include profile pics and users could customize their own using cloud firestore.
